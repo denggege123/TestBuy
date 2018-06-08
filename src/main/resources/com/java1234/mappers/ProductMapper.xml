@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java1234.dao.ProductDao">
+
+	<resultMap type="Product" id="ProductResult">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="stock" column="stock" />
+		<result property="proPic" column="proPic" />
+		<result property="description" column="description" />
+		<result property="hot" column="hot" />
+		<result property="hotTime" column="hotTime" />
+		<result property="specialPrice" column="specialPrice" />
+		<result property="specialPriceTime" column="specialPriceTime" />
+		
+		
+	</resultMap>
+	
+
+	<select id="findProductList" parameterType="Map" resultMap="ProductResult">
+		select * from t_product
+		<where>
+			<if test="specialPrice == 1">
+				and specialPrice=1 order by specialPriceTime desc
+			</if>
+			<if test="hot == 1">
+				and hot=1 order by hotTime desc
+			</if>
+		</where>
+
+		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+
+	<select id="getProductCount" parameterType="Map" resultType="Long">
+		select count(*) from t_product
+		<where>
+			<if test="bigTypeId != null">
+				bigType.id = #{bigTypeId}
+			</if>
+		</where>
+	</select>
+
+</mapper> 
