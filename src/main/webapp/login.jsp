@@ -16,7 +16,6 @@
 	function checkForm(){
 		 var userName=$("#userName").val();
 		 var password=$("#password").val();
-		 var imageCode=$("#imageCode").val();
 		 if(userName==""){
 			 $("#error").html("用户名不能为空！");
 			 return false;

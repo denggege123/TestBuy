@@ -15,7 +15,7 @@ public class ProductSmallType {
 	private String name;
 	private String remarks;
 	
-	private ProductBigType bigType;
+	private String bigTypeId;
 	private List<Product> productList=new ArrayList<Product>();
 	
 	public int getId() {
@@ -38,11 +38,12 @@ public class ProductSmallType {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public ProductBigType getBigType() {
-		return bigType;
+	
+	public String getBigTypeId() {
+		return bigTypeId;
 	}
-	public void setBigType(ProductBigType bigType) {
-		this.bigType = bigType;
+	public void setBigTypeId(String bigTypeId) {
+		this.bigTypeId = bigTypeId;
 	}
 	public List<Product> getProductList() {
 		return productList;

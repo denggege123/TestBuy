@@ -25,6 +25,11 @@
 			window.location.href="shopping_list.action";
 		}
 	}
+	
+	function clickBigType(){
+		//取消首页的颜色
+		
+	}
 </script>
 </head>
 <body>
@@ -43,14 +48,14 @@
 			</c:when>
 			<c:otherwise>
 				<a href="javascript:checkLogin()" class="shopping">购物车</a>
-				<a href="login.jsp">登录</a>
-				<a href="register.jsp">注册</a>
+				<a href="${pageContext.request.contextPath}/login.jsp">登录</a>
+				<a href="${pageContext.request.contextPath}/register.jsp">注册</a>
 				<a href="comment_list.action">留言</a>
 			</c:otherwise>
 		</c:choose>
 
-		<form action="product.action" method="post">
-			<input type="text" id="txtSearch" name="s_product.name" onkeyup=""
+		<form action="${pageContext.request.contextPath}/product/list.do" method="post">
+			<input type="text" id="txtSearch" name="productName" onkeyup=""
 				autocomplete="off" value="${s_product.name }" /> <input
 				type="submit" id="cmdSearch" value="搜索" /><br />
 			<div id="suggest" style="width: 200px"></div>
@@ -59,10 +64,10 @@
 
 	<div class="navbar">
 		<ul class="clearfix">
-			<li class="current"><a href="index.jsp">首页</a></li>
+			<li class="current"><a href="${pageContext.request.contextPath}/tag/getTagList.do">首页</a></li>
 			<c:forEach var="bigType" items="${bigTypeList }">
 				<li><a
-					href="product/list.do?s_product.bigType.id=${bigType.id }">${bigType.name }</a>
+					href="${pageContext.request.contextPath}/product/list.do?bigTypeId=${bigType.id }&typeName=${bigType.name }">${bigType.name }</a>
 				</li>
 			</c:forEach>
 		</ul>
@@ -72,14 +77,14 @@
 	<div id="childNav">
 		<div class="wrap">
 			<ul class="clearfix">
-				<c:forEach var="tag" items="${tagList }" varStatus="status">
+				<c:forEach var="smallType" items="${smallTypeList }" varStatus="status">
 					<c:choose>
 						<c:when test="${status.index==0 }">
-							<li class="first"><a href="${tag.url }" target="_blank">${tag.name }</a>
+							<li class="first"><a href="${pageContext.request.contextPath}/product/list.do?bigTypeId=${bigType.id }&smallTypeId=${smallType.id }&typeName=${smallType.name }" >${smallType.name }</a>
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="${tag.url }" target="_blank">${tag.name }</a></li>
+							<li><a href="${pageContext.request.contextPath}/product/list.do?bigTypeId=${bigType.id }&smallTypeId=${smallType.id }&typeName=${smallType.name }" >${smallType.name }</a></li>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>

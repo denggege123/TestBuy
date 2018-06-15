@@ -16,11 +16,11 @@
 					<li>
 						<dl>
 							<dt>
-								<a href="product_showProduct.action?productId=${p.id }"
-									target="_blank"><img src="${p.proPic }" /></a>
+								<a href="${pageContext.request.contextPath}/product/getProductDetail.do?productId=${p.id }"
+									target="_blank"><img src="${pageContext.request.contextPath}/${p.proPic }" /></a>
 							</dt>
 							<dd class="title">
-								<a href="product_showProduct.action?productId=${p.id }"
+								<a href="${pageContext.request.contextPath}/product/getProductDetail.do?productId=${p.id }"
 									target="_blank">${p.name }</a>
 							</dd>
 							<dd class="price">￥${p.price }</dd>
@@ -30,7 +30,7 @@
 			</ul>
 			<div class="clear"></div>
 			<div class="pager">
-				<ul class="clearfix">${pageCode }
+				<ul class="clearfix" style="float:left;padding-left:40%">${pageCode }
 				</ul>
 			</div>
 		</div>

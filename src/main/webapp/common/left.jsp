@@ -15,7 +15,7 @@
 				<dt>${bigType.name }</dt>
 				<c:forEach items="${bigType.smallTypeList }" var="smallType">
 					<dd>
-						<a href="product.action?s_product.smallType.id=${smallType.id}">${smallType.name }</a>
+						<a href="${pageContext.request.contextPath}/product/list.do?bigTypeId=${bigType.id }&smallTypeId=${smallType.id}&typeName=${smallType.name }">${smallType.name }</a>
 					</dd>
 				</c:forEach>
 			</c:forEach>
@@ -28,12 +28,11 @@
 		<dl class="clearfix">
 			<c:forEach var="p" items="${currentBrowse }">
 				<dt>
-					<img src="${p.proPic }" class="imgs"
+					<img src="${pageContext.request.contextPath}/${p.proPic }" class="imgs"
 						style="height: 50px; width: 50px;">
 				</dt>
 				<dd>
-					<a href="product_showProduct.action?productId=${p.id }"
-						target="_blank">${p.name }</a>
+					<a href="${pageContext.request.contextPath}/product/getProductDetail.do?productId=${p.id }">${p.name }</a>
 				</dd>
 			</c:forEach>
 		</dl>

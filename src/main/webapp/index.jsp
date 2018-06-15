@@ -24,11 +24,11 @@
 						<li>
 							<dl>
 								<dt>
-									<a href="product_showProduct.action?productId=${spProduct.id }"
+									<a href="product/getProductDetail.do?productId=${spProduct.id }"
 										target="_blank"><img src="${spProduct.proPic }" /></a>
 								</dt>
 								<dd class="title">
-									<a href="product_showProduct.action?productId=${spProduct.id }"
+									<a href="product/getProductDetail.do?productId=${spProduct.id }"
 										target="_blank">${spProduct.name }</a>
 								</dd>
 								<dd class="price">￥${spProduct.price }</dd>

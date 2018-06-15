@@ -15,11 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="hotTime" column="hotTime" />
 		<result property="specialPrice" column="specialPrice" />
 		<result property="specialPriceTime" column="specialPriceTime" />
-		
-		
+		<result property="bigTypeId" column="bigTypeId" />
+		<result property="smallTypeId" column="smallTypeId" />
 	</resultMap>
 	
-
+	<!-- 查询今日特价和热卖热卖商品的商品信息 -->
 	<select id="findProductList" parameterType="Map" resultMap="ProductResult">
 		select * from t_product
 		<where>
@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			limit #{start},#{size}
 		</if>
 	</select>
-
+	<!-- 查询商品数量 -->
 	<select id="getProductCount" parameterType="Map" resultType="Long">
 		select count(*) from t_product
 		<where>
@@ -44,5 +44,70 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	
+	
+	<!--通过大类ID查询商品信息  -->
+	<select id="findProductListById" parameterType="Map" resultMap="ProductResult">
+		select * from t_product where name like '%${productName}%'
+		<if test="bigTypeId!=null and bigTypeId!=''">
+			and bigTypeId = #{bigTypeId}
+		</if>
+		<if test="smallTypeId!=null and smallTypeId!=''">
+			and smallTypeId = #{smallTypeId}
+		</if>
+		
+		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	
+	<!--通过子类ID查询商品信息   -->
+	<select id="findProductListBySmallTypeId" parameterType="Map" resultMap="ProductResult">
+		select * from t_product where smallTypeId = #{smallTypeId}
+		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	
+	<!--通过ID查询商品数量  -->
+	<select id="getProductCountById" parameterType="Map" resultType="Long">
+		select count(1) from t_product where name like '%${productName}%'
+		<if test="bigTypeId!=null and bigTypeId!=''">
+			and bigTypeId = #{bigTypeId}
+		</if>
+		<if test="smallTypeId!=null and smallTypeId!=''">
+			and smallTypeId = #{smallTypeId}
+		</if>
+		
+	</select>
+	
+	<!--通过子类ID查询商品数量  -->
+	<select id="getProductCountBySmallType" parameterType="String" resultType="Long">
+			select count(*) from t_product where smallTypeId = #{smallTypeId}
+	</select>
+	
+	<!-- 查询大类下的子类列表 -->
+	<select id="findSmallTypeLByBigTypeID" parameterType="String" resultType="productSmallType">
+			select * from t_smalltype ts 
+	<where>
+		<choose>
+		    <when test="bigTypeId==null or bigTypeId== '' ">
+		        <if test="smallTypeId!=null and smallTypeId!=''">
+		        	ts.`bigTypeId` = (select t.`bigTypeId` from t_smalltype t where t.id = #{smallTypeId} )
+		        </if>
+		    </when>
+		    <otherwise>
+		         ts.`bigTypeId` = #{bigTypeId}	
+		    </otherwise>
+		</choose>
+	</where>	
+	</select>
+	
+	<!-- 查询商品详细信息-->
+	<select id="getProductById" parameterType="String" resultType="product">
+			select * from t_product ts where ts.`id` = #{productId}
+	</select>
+	
+	
 
 </mapper> 

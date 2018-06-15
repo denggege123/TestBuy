@@ -8,12 +8,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="remarks" column="remarks" />
+		<collection property="smallTypeList" column="id" ofType="productSmallType"                    
+            select="findSmallTypeListById" ></collection>
+		
 	</resultMap>
 	
 
 	<select id="findAllBigTypeList"  resultMap="ProductBigTypeResult">
-		select * from t_bigtype
+		select * from t_bigtype 
 	</select>
+	
+	<select id="findSmallTypeListById"  resultType="productSmallType">
+		select * from t_smalltype where bigTypeId = #{id}
+	</select>
+	
 
 
 </mapper> 

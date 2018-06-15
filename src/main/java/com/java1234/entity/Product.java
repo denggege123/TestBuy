@@ -22,8 +22,10 @@ public class Product {
 	private int specialPrice;
 	private Date specialPriceTime;
 	
-	private ProductBigType bigType;
-	private ProductSmallType smallType;
+	private int bigTypeId;
+	private int smallTypeId;
+	
+	
 	private List<OrderProduct> orderProductList=new ArrayList<OrderProduct>();
 	
 	public int getId() {
@@ -87,24 +89,23 @@ public class Product {
 	public void setSpecialPriceTime(Date specialPriceTime) {
 		this.specialPriceTime = specialPriceTime;
 	}
-	public ProductBigType getBigType() {
-		return bigType;
-	}
-	public void setBigType(ProductBigType bigType) {
-		this.bigType = bigType;
-	}
-	
-	public ProductSmallType getSmallType() {
-		return smallType;
-	}
-	public void setSmallType(ProductSmallType smallType) {
-		this.smallType = smallType;
-	}
 	public List<OrderProduct> getOrderProductList() {
 		return orderProductList;
 	}
 	public void setOrderProductList(List<OrderProduct> orderProductList) {
 		this.orderProductList = orderProductList;
+	}
+	public int getBigTypeId() {
+		return bigTypeId;
+	}
+	public void setBigTypeId(int bigTypeId) {
+		this.bigTypeId = bigTypeId;
+	}
+	public int getSmallTypeId() {
+		return smallTypeId;
+	}
+	public void setSmallTypeId(int smallTypeId) {
+		this.smallTypeId = smallTypeId;
 	}
 	
 	

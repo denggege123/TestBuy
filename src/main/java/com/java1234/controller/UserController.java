@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.java1234.entity.User;
 import com.java1234.service.UserService;
@@ -102,26 +103,28 @@ public class UserController {
 		this.imageCode = imageCode;
 	}
 	
-	
-
-	
-	
-	
 	@RequestMapping("/login")
-	public String login(User user,HttpServletRequest request)throws Exception{
+	public ModelAndView login(User user,String imageCode,HttpServletRequest request)throws Exception{
 		
-		
+		ModelAndView mav = new ModelAndView();
+		String resultUrl = "login";
 		User currentUser=userService.login(user);
-		HttpSession session=request.getSession();
 		
-		if(currentUser==null){
-			request.setAttribute("user", user);
-			request.setAttribute("errorMsg", "用户名或密码错误！");
-			return "login";
-		}else{
-			session.setAttribute("currentUser", currentUser);
-			return "redirect:/index.jsp";
+		String sImageCode = (String) request.getSession().getAttribute("sRand");
+		if(sImageCode!=null && imageCode!=null && imageCode.equals(sImageCode)){ //验证码输入正确
+			if(currentUser==null){	
+				request.getSession().setAttribute("user", user);
+				mav.addObject("error", "用户名或密码错误！");
+			}else{
+				request.getSession().setAttribute("currentUser", currentUser);
+				resultUrl = "redirect:/index.jsp";
+			}
+		} else{ //验证码输入错误
+			mav.addObject("error", "验证码输入错误");
 		}
+		mav.setViewName(resultUrl);
+		return mav;
+		
 		
 	}
 }

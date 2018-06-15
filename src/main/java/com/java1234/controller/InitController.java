@@ -43,22 +43,22 @@ public class InitController implements ServletContextListener,ApplicationContext
 		// TODO Auto-generated method stub
 		ServletContext application=servletContextEvent.getServletContext();
 		ProductBigTypeService productBigTypeService=(ProductBigTypeService)applicationContext.getBean("productBigTypeService");
+		ProductService productService=(ProductService)applicationContext.getBean("productService");
 		List<ProductBigType> bigTypeList=productBigTypeService.findAllBigTypeList();
 		application.setAttribute("bigTypeList", bigTypeList);
 		
 		TagService tagService=(TagService)applicationContext.getBean("tagService");
 		List<Tag> tagList=tagService.findTagList();
-		application.setAttribute("tagList", tagList);
+		application.setAttribute("smallTypeList", tagList);
 		
 		NoticeService noticeService=(NoticeService)applicationContext.getBean("noticeService");
-		List<Notice> noticeList=noticeService.findNoticeList(null);
-		application.setAttribute("noticeList", noticeList);
+		List<Notice> noticeList=noticeService.findNoticeList(null);		application.setAttribute("noticeList", noticeList);
 		
 		NewsService newsService=(NewsService)applicationContext.getBean("newsService");
 		List<News> newsList=newsService.findNewsList(null);
 		application.setAttribute("newsList", newsList);
 		
-		ProductService productService=(ProductService)applicationContext.getBean("productService");
+//		ProductService productService=(ProductService)applicationContext.getBean("productService");
 		Product s_product=new Product();
 		s_product.setSpecialPrice(1);
 		List<Product> specialPriceProductList=productService.findProductList(map);

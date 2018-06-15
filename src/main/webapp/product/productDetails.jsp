@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	function addShoppingCart(productId){
+		console.log("userInfo",'${currentUser}');
 		if('${currentUser.userName}'==''){
 			alert("请先登录，然后购物！");
 		}else{
@@ -25,6 +26,7 @@
 	}
 	
 	function goBuy(productId){
+		console.log("userInfo",'${currentUser}');
 		if('${currentUser.userName}'==''){
 			alert("请先登录，然后购物！");
 		}else{
@@ -38,7 +40,7 @@
 		<h1>${product.name}</h1>
 		<div class="infos">
 			<div class="thumb">
-				<img class="img" src="${product.proPic}" />
+				<img class="img" src="${pageContext.request.contextPath}/${product.proPic}" />
 			</div>
 			<div class="buy">
 				<br />

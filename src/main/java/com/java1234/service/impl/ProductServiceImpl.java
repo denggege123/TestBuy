@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.java1234.dao.ProductDao;
 import com.java1234.entity.Product;
+import com.java1234.entity.ProductSmallType;
+import com.java1234.entity.Tag;
 import com.java1234.service.ProductService;
 
 @Service("productService")
@@ -21,13 +23,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.findProductList(map);
 	}
 
-	public Long getProductCount(Map<String,Object> map) {
-		return productDao.getProductCount(map);
+	public Long getProductCountById(Map<String,Object> map){
+		return productDao.getProductCountById(map);
 	}
 
-	public Product getProductById(int productId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product getProductById(String productId) {
+		return productDao.getProductById(productId);
 	}
 
 	public void saveProduct(Product product) {
@@ -51,8 +52,23 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	public boolean existProductWithSmallTypeId(int smallTypeId) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public List<Tag> findTagList(String productId) {
+		return productDao.findTagList(productId);
+	}
+
+	public List<Product> findProductListById(Map<String, Object> map) {
+		return productDao.findProductListById(map);
+	}
+
+	public List<ProductSmallType> findSmallTypeLByBigTypeID(Map<String, Object> map) {
+		return productDao.findSmallTypeLByBigTypeID(map);
+	}
+
+	public Long getProductCountBySmallType(String smallTypeId) {
+		return productDao.getProductCountBySmallType(smallTypeId);
 	}
 
 	
