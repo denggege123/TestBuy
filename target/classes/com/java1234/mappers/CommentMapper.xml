@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java1234.dao.CommentDao">
+
+	<select id="getCommentList" parameterType="Map" resultType="comment">
+		SELECT * FROM t_comment tc ORDER BY createTime DESC 
+		<if test="start!=null  and pageSize!=null">
+			LIMIT #{start},#{pageSize}
+		</if>
+	</select>
+	
+	<select id="getCommentCount"  resultType="long">
+		SELECT count(1) FROM t_comment tc ORDER BY createTime DESC 
+	</select>
+	
+	<insert id="saveComment" parameterType="comment">
+		INSERT INTO t_comment VALUES(NULL,#{content},now(),#{nickName},#{replyContent},#{replyTime})
+	</insert>
+
+</mapper> 

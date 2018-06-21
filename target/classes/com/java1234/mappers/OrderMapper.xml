@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java1234.dao.OrderDao">
+
+	
+	<resultMap type="Order" id="OrderResult">
+		<id column="id" property="id" />
+		<result column="cost" property="cost"/>
+		<result column="createTime" property="createTime"/>
+		<result column="orderNo" property="orderNo"/>
+		<result column="status" property="status"/>
+		<result column="userId" property="userId"/>
+		<collection property="orderProductList" column="id" 
+		ofType="OrderProduct" select="getOrderProductByOrderId"></collection>
+	</resultMap>
+	
+	<resultMap type="OrderProduct" id="OrderProductResult">
+		<id column="id" property="id" />
+		<result column="num" property="num"/>
+		<result column="orderId" property="orderId"/>
+		<association property="product" select="getProductById" column="productId" />  
+	</resultMap>
+	
+	<select id="getOrderByUserIdAndOrderNo" parameterType="Map" resultMap="OrderResult">
+		select * from t_order where userId = #{userId} 
+		<if test="orderNo!=null and orderNo!=''">
+			and orderNo like '%${orderNo}%'
+		</if>
+		order by createTime desc
+	</select>
+	
+	<select id="getOrderProductByOrderId" parameterType="int" resultMap="OrderProductResult">
+		select id,num,orderId,productId from t_order_product where orderId = #{id}
+	</select>
+	
+	<select id="getProductById" parameterType="int" resultType="product">
+		select * from t_product where id = #{id}
+	</select>
+	
+	
+	<insert id="saveOrder" parameterType="order" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_order(cost,createTime,orderNo,`status`,userId) 
+		VALUES(#{cost},#{createTime},#{orderNo},#{status},#{userId})			
+	</insert>
+	
+	<insert id="saveOrderProduct" parameterType="java.util.List" >
+		INSERT INTO t_order_product(num,orderId,productId) values
+		<foreach collection="list" item="item" separator=",">  
+			(#{item.num},#{item.orderId},#{item.product.id})  
+		</foreach>  
+	</insert>
+	
+	<update id = "updateOrderStatus" parameterType="Map">
+		UPDATE t_order SET `status`=#{status} where orderNo=#{orderNo} 
+	</update>
+
+</mapper> 

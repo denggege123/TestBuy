@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java1234.dao.NoticeDao">
+
+	<resultMap type="Notice" id="NoticeResult">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="createTime" column="createTime" />
+	</resultMap>
+	
+
+	<select id="findNoticeList" parameterType="Map" resultMap="NoticeResult">
+		select * from t_notice ORDER BY createTime DESC LIMIT 7 
+	</select>
+	
+	<select id="getNoticeById" parameterType="int" resultMap="NoticeResult">
+		select * from t_notice where id = #{noticeId}  
+	</select>
+
+
+</mapper> 
