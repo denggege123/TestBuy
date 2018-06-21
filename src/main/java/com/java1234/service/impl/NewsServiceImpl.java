@@ -23,8 +23,7 @@ public class NewsServiceImpl implements NewsService{
 	}
 
 	public News getNewsById(int newsId) {
-		// TODO Auto-generated method stub
-		return null;
+		return newsDao.getNewsById(newsId);
 	}
 
 	public Long getNewsCount(News s_news) {

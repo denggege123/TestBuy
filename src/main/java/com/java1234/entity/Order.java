@@ -16,9 +16,9 @@ public class Order {
 	private Date createTime;
 	private float cost;
 	private int status; // 状态  1 待审核  2 审核通过 3 卖家已发货  4 已收获
-	private User user;
+	private int userId;
 	
-	private List<OrderProduct> orderProductList=new ArrayList<OrderProduct>();
+	private List<OrderProduct> orderProductList;
 	
 	public int getId() {
 		return id;
@@ -50,12 +50,6 @@ public class Order {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
 	
 	public List<OrderProduct> getOrderProductList() {
 		return orderProductList;
@@ -63,6 +57,14 @@ public class Order {
 	public void setOrderProductList(List<OrderProduct> orderProductList) {
 		this.orderProductList = orderProductList;
 	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	
+	
 	
 	
 	

@@ -8,4 +8,6 @@ import com.java1234.entity.Notice;
 
 public interface NoticeDao {
 	public List<Notice> findNoticeList(Map<String,Object> map);
+
+	public Notice getNoticeById(int noticeId);
 }

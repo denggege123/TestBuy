@@ -10,7 +10,7 @@
 <script type="text/javascript">
 	function confirmReceive(orderNo){
 		if(confirm("确认收货？")){
-			$.post("order_confirmReceive.action",{status:4,orderNo:orderNo},function(result){
+			$.post("${pageContext.request.contextPath}/order/updateStatusByOrderNo.do",{status:4,orderNo:orderNo},function(result){
 				var result=eval('('+result+')');
 				if(result.success){
 					alert("确认收货成功！");
@@ -27,9 +27,9 @@
 	<h2>订单管理</h2>
 	<div class="manage">
 		<div class="search">
-			<form action="order_findOrder.action" method="post">
-				订单号：<input type="text" class="text" name="s_order.orderNo"
-					value="${s_order.orderNo}" /> <label class="ui-blue"><input
+			<form action="${pageContext.request.contextPath}/order/getOrderByOrderNo.do" method="post">
+				订单号：<input type="text" class="text" name="orderNo"
+					value="${orderNo}" /> <label class="ui-blue"><input
 					type="submit" name="submit" value="查询" /></label>
 			</form>
 		</div>
@@ -44,7 +44,7 @@
 							<c:when test="${order.status==1 }">待审核</c:when>
 							<c:when test="${order.status==2 }">待发货</c:when>
 							<c:when test="${order.status==3 }">
-								<input type="button" style="border: 1px solid red" value="确实收货"
+								<input type="button" style="border: 1px solid red" value="确认收货"
 									onclick="confirmReceive(${order.orderNo})" />
 							</c:when>
 							<c:when test="${order.status==4 }">交易已完成</c:when>
@@ -56,9 +56,8 @@
 						<td width="50%"><a
 							href="product_showProduct.action?productId=${orderProduct.product.id }"
 							target="_blank"><img width="72" height="72"
-								src="${orderProduct.product.proPic }"></a> &nbsp;&nbsp; <a
-							href="product_showProduct.action?productId=${orderProduct.product.id }"
-							target="_blank">${orderProduct.product.name}</a></td>
+								src="${pageContext.request.contextPath}/${orderProduct.product.proPic }"></a> &nbsp;&nbsp; <a
+							href="${pageContext.request.contextPath}/product/getProductDetail.do?productId=${orderProduct.product.id }">${orderProduct.product.name}</a></td>
 						<td width="17%">&nbsp;&nbsp; ${orderProduct.product.price}</td>
 						<td width="17%">&nbsp;&nbsp; ${orderProduct.num}</td>
 						<td>&nbsp;&nbsp;小计：

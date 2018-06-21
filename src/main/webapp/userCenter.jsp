@@ -18,11 +18,11 @@
 				<dl>
 					<dt>用户管理</dt>
 					<dd>
-						<a href="user_getUserInfo.action">个人信息管理</a>
+						<a href="${pageContext.request.contextPath}/user/getUserInfo.do">个人信息管理</a>
 					</dd>
 					<dt>订单管理</dt>
 					<dd>
-						<a href="order_findOrder.action">个人订单管理</a>
+						<a href="${pageContext.request.contextPath}/user/getOrderInfo.do">个人订单管理</a>
 					</dd>
 				</dl>
 			</div>

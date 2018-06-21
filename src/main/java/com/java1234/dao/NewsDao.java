@@ -7,4 +7,6 @@ import com.java1234.entity.News;
 
 public interface NewsDao {
 	public List<News> findNewsList(Map<String,Object> map);
+
+	public News getNewsById(int newsId);
 }

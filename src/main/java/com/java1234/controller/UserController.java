@@ -1,15 +1,26 @@
 package com.java1234.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.java1234.entity.Order;
 import com.java1234.entity.User;
+import com.java1234.service.OrderService;
 import com.java1234.service.UserService;
+import com.java1234.util.NavUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * 用户Controller层
@@ -23,6 +34,9 @@ public class UserController {
 
 	@Resource
 	private UserService userService;
+	
+	@Resource
+	private OrderService orderService;
 	
 	private String userName;
 	private User user;
@@ -125,6 +139,123 @@ public class UserController {
 		mav.setViewName(resultUrl);
 		return mav;
 		
-		
 	}
+	
+	/**
+	 * 跳转到个人中心页面
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/getUserCenter")
+	public ModelAndView getUserCenter(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("mainPage", "userCenter/ucDefault.jsp");
+		mav.addObject("navCode", NavUtil.genNavCode("个人中心",request));
+		mav.setViewName("userCenter");		
+		return mav;
+	}
+	
+	/**
+	 * 跳转到个人信息页面
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("getUserInfo")
+	public ModelAndView getUserInfo(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mav = new ModelAndView();		
+		mav.addObject("mainPage", "userCenter/userInfo.jsp");		
+		mav.setViewName("userCenter");		
+		return mav;
+	}
+	
+	/**
+	 * 跳转到修改个人信息页面
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("getUpdateUserInfo")
+	public ModelAndView getUpdateUserInfo(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mav = new ModelAndView();
+		User user = (User) request.getSession().getAttribute("currentUser");
+		mav.addObject("user",user);
+		mav.addObject("mainPage", "userCenter/userSave.jsp");		
+		mav.setViewName("userCenter");		
+		return mav;
+	}
+	
+	@RequestMapping("updateUserInfo")
+	public ModelAndView getUpdateUserInfo(User user,HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mav = new ModelAndView();		
+		userService.saveUser(user);
+		request.getSession().setAttribute("currentUser", user);
+		mav.addObject("currentUser", user);
+		mav.addObject("mainPage", "userCenter/userInfo.jsp");	
+		mav.setViewName("userCenter");
+		return mav;
+	}
+	
+	/**
+	 * 跳转到个人订单页面
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("getOrderInfo")
+	public ModelAndView getOrderInfo(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mav = new ModelAndView();	
+
+		User user = (User) request.getSession().getAttribute("currentUser");
+		Map map = new HashMap();
+		map.put("userId", user.getId());
+		//获取订单信息
+		List<Order> orderList = orderService.getOrderByUserIdAndOrderNo(map);
+		mav.addObject("orderList", orderList);
+		mav.addObject("mainPage", "userCenter/orderList.jsp");		
+		mav.setViewName("userCenter");		
+		return mav;
+	}
+	
+	/**
+	 * 注册新的用户信息
+	 * @param user
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("registerUser")
+	public ModelAndView registerUser(User user,HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mav = new ModelAndView();		
+		userService.saveUser(user);
+		mav.setViewName("login");
+		return mav;
+	}
+	
+	/**
+	 * 检查用户名称是否存在
+	 * @param UserName
+	 * @throws IOException 
+	 */
+	@RequestMapping("checkUserName")
+	public void checkUserName(String UserName,HttpServletRequest request,HttpServletResponse response) throws IOException{
+		boolean exist = false;
+		exist = userService.checkUserName(UserName);
+		JSONObject jsonResult = new JSONObject();
+		jsonResult.put("exist", exist);
+		response.getWriter().write(jsonResult.toString());
+	}
+	
+	@RequestMapping("logout")
+	public ModelAndView logout(HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		//销毁原先的session
+		request.getSession().invalidate();
+		mav.setViewName("login");
+		return mav;
+	}
+	
+	
 }

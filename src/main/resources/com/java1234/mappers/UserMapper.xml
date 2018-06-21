@@ -20,13 +20,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<insert id="saveUser" parameterType="User">
-		insert into t_user values(null,#{trueName},#{userName},#{password},#{sex},#{birthday},#{dentityCode}
-		,#{email},#{mobile},#{address},#{mobile},#{status})
+		<choose>
+		    <when test="id!=null and id!='0'">
+		    	UPDATE t_user SET address=#{address},birthday=#{birthday},dentityCode=#{dentityCode},
+				email=#{email},mobile=#{mobile},`password`=#{password},sex=#{sex},trueName=#{trueName}
+		    </when>
+		    <otherwise>
+		    	INSERT INTO t_user VALUES {#{address},#{birthday},#{dentityCode},#{email},
+				#{mobile},#{password},#{sex},'1',#{trueName},#{userName}}
+		    </otherwise>
+		</choose>		
 	</insert>
+	
+	
 
 
-	<select id="count" parameterType="String">
-		select count(*) from t_user where userName = #{userName}
+	<select id="checkUserName" parameterType="String" resultType="int">
+		select count(1) from t_user where userName = #{userName}
 	</select>
 
 	<select id="login" parameterType="User" resultMap="UserResult">
@@ -35,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			and status = 2
 		</if>
 	</select>
+	
 
 
 </mapper> 

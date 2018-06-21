@@ -24,7 +24,7 @@
 				<td class="w2 c">${currentUser.sex}</td>
 				<td>${currentUser.email}</td>
 				<td class="w4 c">${currentUser.mobile}</td>
-				<td class="w1 c"><a href="user_preSave.action">修改</a></td>
+				<td class="w1 c"><a href="${pageContext.request.contextPath}/user/getUpdateUserInfo.do">修改</a></td>
 			</tr>
 		</table>
 	</div>

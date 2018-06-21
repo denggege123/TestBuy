@@ -16,7 +16,7 @@
 						<p>恭喜：购买成功！</p>
 						<p>正在进入首页...</p>
 						<script type="text/javascript">
-						setTimeout("location.href='index.jsp'", 3000);
+						setTimeout("location.href='${pageContext.request.contextPath}/index.jsp'", 3000);
 					</script>
 					</div>
 				</div>

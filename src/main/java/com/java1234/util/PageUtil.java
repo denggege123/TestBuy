@@ -1,5 +1,7 @@
 package com.java1234.util;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 分页工具类
  * @author Administrator
@@ -15,15 +17,15 @@ public class PageUtil {
 	 * @param pageSize 每页大小
 	 * @return
 	 */
-	public static String genPagination(String targetUrl,long totalNum,int currentPage,int pageSize,String param){
+	public static String genPagination(String targetUrl,long totalNum,int currentPage,int pageSize,String param,HttpServletRequest request){
 		long totalPage=totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
 		if(totalPage==0){
 			return "未查询到数据";
 		}else{
 			StringBuffer pageCode=new StringBuffer();
-			pageCode.append("<li><a href='"+targetUrl+"?page=1&"+param+"'>首页</a></li>");
+			pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page=1&"+param+"'>首页</a></li>");
 			if(currentPage>1){
-				pageCode.append("<li><a href='"+targetUrl+"?page="+(currentPage-1)+"&"+param+"'>上一页</a></li>");			
+				pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page="+(currentPage-1)+"&"+param+"'>上一页</a></li>");			
 			}
 			for(int i=currentPage-2;i<=currentPage+2;i++){
 				if(i<1||i>totalPage){
@@ -32,26 +34,26 @@ public class PageUtil {
 				if(i==currentPage){
 					pageCode.append("<li>"+i+"</li>");		
 				}else{
-					pageCode.append("<li><a href='"+targetUrl+"?page="+i+"&"+param+"'>"+i+"</a></li>");	
+					pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page="+i+"&"+param+"'>"+i+"</a></li>");	
 				}
 			}
 			if(currentPage<totalPage){
-				pageCode.append("<li><a href='"+targetUrl+"?page="+(currentPage+1)+"&"+param+"'>下一页</a></li>");		
+				pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page="+(currentPage+1)+"&"+param+"'>下一页</a></li>");		
 			}
-			pageCode.append("<li><a href='"+targetUrl+"?page="+totalPage+"&"+param+"'>尾页</a></li>");
+			pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page="+totalPage+"&"+param+"'>尾页</a></li>");
 			return pageCode.toString();
 		}
 	}
 	
-	public static String genPaginationNoParam(String targetUrl,long totalNum,int currentPage,int pageSize){
+	public static String genPaginationNoParam(String targetUrl,long totalNum,int currentPage,int pageSize,HttpServletRequest request){
 		long totalPage=totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
 		if(totalPage==0){
 			return "未查询到数据";
 		}else{
 			StringBuffer pageCode=new StringBuffer();
-			pageCode.append("<li><a href='"+targetUrl+"?page=1'>首页</a></li>");
+			pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page=1'>首页</a></li>");
 			if(currentPage>1){
-				pageCode.append("<li><a href='"+targetUrl+"?page="+(currentPage-1)+"'>上一页</a></li>");			
+				pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page="+(currentPage-1)+"'>上一页</a></li>");			
 			}
 			for(int i=currentPage-2;i<=currentPage+2;i++){
 				if(i<1||i>totalPage){
@@ -60,13 +62,13 @@ public class PageUtil {
 				if(i==currentPage){
 					pageCode.append("<li>"+i+"</li>");		
 				}else{
-					pageCode.append("<li><a href='"+targetUrl+"?page="+i+"'>"+i+"</a></li>");	
+					pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page="+i+"'>"+i+"</a></li>");	
 				}
 			}
 			if(currentPage<totalPage){
-				pageCode.append("<li><a href='"+targetUrl+"?page="+(currentPage+1)+"'>下一页</a></li>");		
+				pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page="+(currentPage+1)+"'>下一页</a></li>");		
 			}
-			pageCode.append("<li><a href='"+targetUrl+"?page="+totalPage+"'>尾页</a></li>");
+			pageCode.append("<li><a href='"+request.getContextPath()+"/"+targetUrl+"?page="+totalPage+"'>尾页</a></li>");
 			return pageCode.toString();
 		}
 	}

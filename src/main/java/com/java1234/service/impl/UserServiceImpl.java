@@ -44,6 +44,14 @@ public class UserServiceImpl implements UserService{
 	public User login(User user) {
 		return userDao.login(user);
 	}
+	
+	public boolean checkUserName(String userName) {
+		if(userDao.checkUserName(userName)>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	public List<User> findUserList(User s_user, PageBean pageBean) {
 		// TODO Auto-generated method stub
@@ -64,6 +72,8 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 
 }

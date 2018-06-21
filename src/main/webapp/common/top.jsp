@@ -14,7 +14,7 @@
 <script type="text/javascript">
 	function logout(){
 		if(confirm('您确定要退出系统吗？')){
-			window.location.href="user_logout.action";
+			window.location.href="${pageContext.request.contextPath}/user/logout.do";
 		}
 	}
 	
@@ -22,7 +22,7 @@
 		if('${currentUser.userName}'==''){
 			alert("请先登录！");
 		}else{
-			window.location.href="shopping_list.action";
+			window.location.href="${pageContext.request.contextPath}/shopping/getShopList.do";
 		}
 	}
 	
@@ -40,17 +40,17 @@
 	<div class="help">
 		<c:choose>
 			<c:when test="${not empty currentUser }">
-				<a href="shopping_list.action" class="shopping">购物车(${shoppingCart.shoppingCartItems==null?0:shoppingCart.shoppingCartItems.size() }件商品)</a>
-				<a href="user_userCenter.action">${currentUser.userName }</a>
+				<a href="${pageContext.request.contextPath}/shopping/getShopList.do" class="shopping">购物车(${shoppingCart.shoppingCartItems==null?0:shoppingCart.shoppingCartItems.size() }件商品)</a>
+				<a href="${pageContext.request.contextPath}/user/getUserCenter.do">${currentUser.userName }</a>
 				<a href="javascript:logout()">注销</a>
-				<a href="register.jsp">注册</a>
-				<a href="comment_list.action">留言</a>
+				<a href="${pageContext.request.contextPath}/register.jsp">注册</a>
+				<a href="${pageContext.request.contextPath}/comment/getCommentList.do">留言</a>
 			</c:when>
 			<c:otherwise>
 				<a href="javascript:checkLogin()" class="shopping">购物车</a>
 				<a href="${pageContext.request.contextPath}/login.jsp">登录</a>
 				<a href="${pageContext.request.contextPath}/register.jsp">注册</a>
-				<a href="comment_list.action">留言</a>
+				<a href="${pageContext.request.contextPath}/comment/getCommentList.do">留言</a>
 			</c:otherwise>
 		</c:choose>
 

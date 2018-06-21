@@ -9,7 +9,7 @@ public class OrderProduct {
 
 	private int id;
 	private int num;
-	private Order order;
+	private int orderId;
 	private Product product;
 	
 	public int getId() {
@@ -24,11 +24,11 @@ public class OrderProduct {
 	public void setNum(int num) {
 		this.num = num;
 	}
-	public Order getOrder() {
-		return order;
+	public int getOrderId() {
+		return orderId;
 	}
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 	public Product getProduct() {
 		return product;

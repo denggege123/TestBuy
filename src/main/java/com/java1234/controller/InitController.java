@@ -32,7 +32,6 @@ public class InitController implements ServletContextListener,ApplicationContext
 	
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -52,13 +51,14 @@ public class InitController implements ServletContextListener,ApplicationContext
 		application.setAttribute("smallTypeList", tagList);
 		
 		NoticeService noticeService=(NoticeService)applicationContext.getBean("noticeService");
-		List<Notice> noticeList=noticeService.findNoticeList(null);		application.setAttribute("noticeList", noticeList);
+		List<Notice> noticeList=noticeService.findNoticeList(null);		
+		application.setAttribute("noticeList", noticeList);
 		
 		NewsService newsService=(NewsService)applicationContext.getBean("newsService");
+		
 		List<News> newsList=newsService.findNewsList(null);
 		application.setAttribute("newsList", newsList);
 		
-//		ProductService productService=(ProductService)applicationContext.getBean("productService");
 		Product s_product=new Product();
 		s_product.setSpecialPrice(1);
 		List<Product> specialPriceProductList=productService.findProductList(map);

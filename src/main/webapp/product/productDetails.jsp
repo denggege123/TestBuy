@@ -7,11 +7,11 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	function addShoppingCart(productId){
-		console.log("userInfo",'${currentUser}');
 		if('${currentUser.userName}'==''){
 			alert("请先登录，然后购物！");
 		}else{
-			$.post("shopping_addShoppingCartItem.action",{productId:productId},
+			
+			$.post('${pageContext.request.contextPath}/shopping/addShoppingCartItem.do',{productId:productId},
 				function(result){
 					var result=eval('('+result+')');
 					if(result.success){

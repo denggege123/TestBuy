@@ -44,7 +44,7 @@
 					<ul>
 						<c:forEach items="${noticeList }" var="notice">
 							<li><a
-								href="notice_showNotice.action?noticeId=${notice.id }">${notice.title }</a></li>
+								href="notice/getNoticeInfoById.do?noticeId=${notice.id }">${notice.title }</a></li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -53,7 +53,7 @@
 					<h4>新闻动态</h4>
 					<ul>
 						<c:forEach items="${newsList }" var="news">
-							<li><a href="news_showNews.action?newsId=${news.id }">${news.title }</a></li>
+							<li><a href="news/getNewsInfoById.do?newsId=${news.id }">${news.title }</a></li>
 						</c:forEach>
 					</ul>
 				</div>

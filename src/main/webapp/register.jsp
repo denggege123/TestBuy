@@ -47,7 +47,7 @@
 			$("#userName").focus();
 			return;
 		}
-		$.post("user_existUserWithUserName.action",{userName:userName},
+		$.post("${pageContext.request.contextPath}/user/checkUserName",{userName:userName},
 				function(result){
 					var result=eval('('+result+')');
 					if(result.exist){
@@ -75,20 +75,20 @@
 					<li class="current"><em></em>填写注册信息</li>
 					<li class="last"><em></em>注册成功</li>
 				</ul>
-				<form id="regForm" method="post" action="user_register.action"
+				<form id="regForm" method="post" action="${pageContext.request.contextPath}/user/registerUser.do"
 					onsubmit="return checkForm()">
 					<table>
 
 						<tr>
 							<td class="field">用户名(*)：</td>
 							<td><input class="text" type="text" id="userName"
-								name="user.userName" onblur="checkUserName(this.value)" />&nbsp;<font
-								id="userErrorInfo" color="red"></font></td>
+								name="userName" onblur="checkUserName(this.value)" />&nbsp;<font
+								id="userErrorInfo" color="red" value="${user.userName }"></font></td>
 						</tr>
 						<tr>
 							<td class="field">登录密码(*)：</td>
 							<td><input class="text" type="password" id="password"
-								name="user.password" /></td>
+								name="password" value="${user.password }" /></td>
 						</tr>
 						<tr>
 							<td class="field">确认密码(*)：</td>
@@ -98,34 +98,34 @@
 
 						<tr>
 							<td class="field">性别(*)：</td>
-							<td><input type="radio" name="user.sex" value="男"
+							<td><input type="radio" name="sex"  value="男"
 								checked="checked" />男&nbsp;&nbsp; <input type="radio"
-								name="user.sex" value="女" />女</td>
+								name="sex" value="女" />女</td>
 						</tr>
 						<tr>
 							<td class="field">出生日期：</td>
-							<td><input type="text" id="birthday" name="user.birthday"
-								class="Wdate" onClick="WdatePicker()" /></td>
+							<td><input type="text" id="birthday" name="birthday"
+								class="Wdate" onClick="WdatePicker()"  value="${user.birthday }"/></td>
 						</tr>
 						<tr>
 							<td class="field">身份证号：</td>
 							<td><input class="text" type="text" id="dentityCode"
-								name="user.dentityCode" /></td>
+								name="dentityCode"  value="${user.dentityCode }"/></td>
 						</tr>
 						<tr>
 							<td class="field">Email：</td>
 							<td><input class="text" type="text" id="email"
-								name="user.email" /></td>
+								name="email" value="${user.email }" /></td>
 						</tr>
 						<tr>
 							<td class="field">手机号码(*)：</td>
 							<td><input class="text" type="text" id="mobile"
-								name="user.mobile" /></td>
+								name="mobile" value="${user.mobile }"/></td>
 						</tr>
 						<tr>
 							<td class="field">收获地址(*)：</td>
 							<td><input class="text" type="text" id="address"
-								name="user.address" /></td>
+								name="address" value="${user.address }"/></td>
 						</tr>
 						<tr>
 							<td></td>

@@ -13,13 +13,13 @@ public interface UserDao {
 	 */
 	public void saveUser(User user);
 	
-	
-	public Long count(String userName);
-	
 	/**
 	 * ÓÃ»§µÇÂ¼
 	 * @param user
 	 * @return
 	 */
 	public User login(User user);
+
+
+	public int checkUserName(String userName);
 }

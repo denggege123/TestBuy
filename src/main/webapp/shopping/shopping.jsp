@@ -58,7 +58,7 @@ $(function(){
 	}
 	
 	function refreshSession(productId,count){
-		$.post("shopping_updateShoppingCartItem.action",{productId:productId,count:count},
+		$.post("${pageContext.request.contextPath}/shopping/updateShoppingCartItem.do",{productId:productId,count:count},
 			function(result){
 				var result=eval('('+result+')');
 				if(result.success){
@@ -76,14 +76,22 @@ $(function(){
 
 function removeShopping(productId){
 	if(confirm("您确定要删除这个商品吗？")){
-		window.location.href="shopping_removeShoppingCartItem.action?productId="+productId;
+		window.location.href="${pageContext.request.contextPath}/shopping/removeShoppingCartItem.do?productId="+productId;
+	}
+}
+
+function buy(){
+	if("${shoppingCart.shoppingCartItems}"==null || "${shoppingCart.shoppingCartItems.size()}"==0){
+		alert("购物车为空！");
+	}else{
+		window.location.href="${pageContext.request.contextPath}/order/buy.do";
 	}
 }
 </script>
 </head>
 <body>
 	<div id="shopping">
-		<form action="order_save.action" method="post">
+		<form action="javascript:buy()" method="post">
 			<table id="myTableProduct">
 				<tr>
 					<th>商品名称</th>
@@ -96,9 +104,9 @@ function removeShopping(productId){
 					var="shoppingCartItem">
 					<tr class="productTr">
 						<td class="thumb"><img class="imgs"
-							src="${shoppingCartItem.product.proPic }" /><a
-							href="product_showProduct.action?productId=${shoppingCartItem.product.id }"
-							target="_blank">${shoppingCartItem.product.name}</a></td>
+							src="${pageContext.request.contextPath}/${shoppingCartItem.product.proPic }" /><a
+							href="${pageContext.request.contextPath}/product/getProductDetail.do?productId=${shoppingCartItem.product.id }"
+							>${shoppingCartItem.product.name}</a></td>
 						<td class="price"><span>￥<label class="price_"
 								id="price_${shoppingCartItem.product.id }">${shoppingCartItem.product.price }</label></span>
 						</td>

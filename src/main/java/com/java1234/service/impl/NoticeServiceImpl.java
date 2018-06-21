@@ -22,8 +22,7 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	public Notice getNoticeById(int noticeId) {
-		// TODO Auto-generated method stub
-		return null;
+		return noticeDAO.getNoticeById(noticeId);
 	}
 
 	public Long getNoticeCount(Notice s_notice) {

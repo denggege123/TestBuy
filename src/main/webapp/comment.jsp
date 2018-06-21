@@ -11,6 +11,21 @@
 	src="${pageContext.request.contextPath}/js/jquery-1.11.1.js"></script>
 <title>Insert title here</title>
 <script type="text/javascript">
+
+	function saveComment(){
+		var nickName=$("#nickName").val();
+		var content=$("#content").val();
+		$.post("${pageContext.request.contextPath}/comment/saveComment.do",{nickName:nickName,content:content},
+		function(result){
+			console.log("result:"+result);
+			var result=eval('('+result+')');
+			if(result.success){
+				location.reload();
+			}else{
+				alert("留言失败！");
+			}
+		})
+	}
 	function checkForm(){
 		var nickName=$("#nickName").val();
 		var content=$("#content").val();
@@ -69,17 +84,17 @@
 					</ul>
 				</div>
 				<div id="reply-box">
-					<form action="comment_save.action" method="post"
+					<form action="javascript:saveComment()" method="post"
 						onsubmit="return checkForm()">
 						<table>
 							<tr>
 								<td class="field">昵称：</td>
 								<td><input class="text" type="text" id="nickName"
-									name="comment.nickName" /></td>
+									name="nickName" /></td>
 							</tr>
 							<tr>
 								<td class="field">留言内容：</td>
-								<td><textarea id="content" name="comment.content"></textarea>
+								<td><textarea id="content" name="content"></textarea>
 								</td>
 							</tr>
 							<tr>

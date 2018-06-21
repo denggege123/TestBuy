@@ -45,8 +45,6 @@ public class ProductController {
 	@RequestMapping("/list")
 	public ModelAndView list(String page,String bigTypeId,String smallTypeId,String typeName,String productName,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		ModelAndView mav = new ModelAndView();
-								
-		
 		Map<String,Object> map=new HashMap<String,Object>();
 		StringBuffer param = new StringBuffer();
 		
@@ -81,8 +79,8 @@ public class ProductController {
 		if(StringUtil.isEmpty(typeName)){
 			typeName = "商品列表";
 		}
-		navCode=NavUtil.genNavCode(typeName);	
-		pageCode=PageUtil.genPagination("Buy/product/list.do", total, pageBean.getPage(), pageBean.getPageSize(), param.toString());
+		navCode=NavUtil.genNavCode(typeName,request);	
+		pageCode=PageUtil.genPagination("product/list.do", total, pageBean.getPage(), pageBean.getPageSize(), param.toString(),request);
 		mav.addObject("smallTypeList", smallTypeList);
 		mav.addObject("pageCode", pageCode);
 		mav.addObject("navCode", navCode);
