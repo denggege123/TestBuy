@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +17,13 @@ import com.java1234.entity.Order;
 import com.java1234.entity.User;
 import com.java1234.service.OrderService;
 import com.java1234.service.UserService;
+import com.java1234.util.DateJsonValueProcessor;
 import com.java1234.util.NavUtil;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 /**
  * 用户Controller层
@@ -121,7 +124,7 @@ public class UserController {
 	public ModelAndView login(User user,String imageCode,HttpServletRequest request)throws Exception{
 		
 		ModelAndView mav = new ModelAndView();
-		String resultUrl = "login";
+		String resultUrl = "";
 		User currentUser=userService.login(user);
 		
 		String sImageCode = (String) request.getSession().getAttribute("sRand");
@@ -129,9 +132,19 @@ public class UserController {
 			if(currentUser==null){	
 				request.getSession().setAttribute("user", user);
 				mav.addObject("error", "用户名或密码错误！");
+				if(user.getStatus()==2){
+					resultUrl="admin/login";
+				}else{
+					resultUrl="login";
+				}
 			}else{
 				request.getSession().setAttribute("currentUser", currentUser);
-				resultUrl = "redirect:/index.jsp";
+				if(user.getStatus()==2){
+					resultUrl="redirect:/admin/main.jsp";
+				}else{
+					resultUrl = "redirect:/index.jsp";
+				}
+				
 			}
 		} else{ //验证码输入错误
 			mav.addObject("error", "验证码输入错误");
@@ -163,7 +176,7 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping("getUserInfo")
+	@RequestMapping("/getUserInfo")
 	public ModelAndView getUserInfo(HttpServletRequest request,HttpServletResponse response){
 		ModelAndView mav = new ModelAndView();		
 		mav.addObject("mainPage", "userCenter/userInfo.jsp");		
@@ -177,7 +190,7 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping("getUpdateUserInfo")
+	@RequestMapping("/getUpdateUserInfo")
 	public ModelAndView getUpdateUserInfo(HttpServletRequest request,HttpServletResponse response){
 		ModelAndView mav = new ModelAndView();
 		User user = (User) request.getSession().getAttribute("currentUser");
@@ -187,7 +200,7 @@ public class UserController {
 		return mav;
 	}
 	
-	@RequestMapping("updateUserInfo")
+	@RequestMapping("/updateUserInfo")
 	public ModelAndView getUpdateUserInfo(User user,HttpServletRequest request,HttpServletResponse response){
 		ModelAndView mav = new ModelAndView();		
 		userService.saveUser(user);
@@ -204,7 +217,7 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping("getOrderInfo")
+	@RequestMapping("/getOrderInfo")
 	public ModelAndView getOrderInfo(HttpServletRequest request,HttpServletResponse response){
 		ModelAndView mav = new ModelAndView();	
 
@@ -226,7 +239,7 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping("registerUser")
+	@RequestMapping("/registerUser")
 	public ModelAndView registerUser(User user,HttpServletRequest request,HttpServletResponse response){
 		ModelAndView mav = new ModelAndView();		
 		userService.saveUser(user);
@@ -239,7 +252,7 @@ public class UserController {
 	 * @param UserName
 	 * @throws IOException 
 	 */
-	@RequestMapping("checkUserName")
+	@RequestMapping("/checkUserName")
 	public void checkUserName(String UserName,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		boolean exist = false;
 		exist = userService.checkUserName(UserName);
@@ -248,13 +261,58 @@ public class UserController {
 		response.getWriter().write(jsonResult.toString());
 	}
 	
-	@RequestMapping("logout")
+	/**
+	 * 点击注销按钮，销毁session，跳转到登录页面
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/logout")
 	public ModelAndView logout(HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
 		//销毁原先的session
 		request.getSession().invalidate();
 		mav.setViewName("login");
 		return mav;
+	}
+	
+	@RequestMapping("/admin/getUserList")
+	public void getUserList(String page,String rows,HttpServletRequest request,HttpServletResponse response) throws IOException {
+		ModelAndView mav = new ModelAndView();
+		Map paramMap = new HashMap();
+		if(page==null || rows==null){
+			page="1";
+			rows="10";
+		}
+		paramMap.put("page", Integer.parseInt(page));
+		paramMap.put("pageSize", Integer.parseInt(rows));
+		List<User> userList = userService.getUserList(paramMap);
+		long total = userService.getUserCount();
+		
+		JsonConfig jsonConfig = new JsonConfig();    
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);    
+		jsonConfig.registerJsonValueProcessor(java.sql.Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));  
+		JSONArray json = JSONArray.fromObject(userList.toArray(),jsonConfig);
+		
+		JSONObject resultJson = new JSONObject();
+		resultJson.put("rows", json);
+		resultJson.put("total",total);
+		
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(resultJson.toString());
+	}
+	
+	@RequestMapping("/admin/updateUserInfo")
+	public void UpdateUserInfo(User user,HttpServletRequest request,HttpServletResponse response) throws IOException{
+		JSONObject json = new JSONObject();
+		if(user.getId()==0) {
+			json.put("success", false);
+		} else{
+			userService.saveUser(user);
+			json.put("success", true);
+		}
+		response.getWriter().write(json.toString());
+		
 	}
 	
 	

@@ -100,7 +100,7 @@
 		$("#email").val(row.email);
 		$("#mobile").val(row.mobile);
 		$("#address").val(row.address);
-		url="user_saveUser.action?user.id="+row.id;
+		url="${pageContext.request.contextPath}/user/updateUserInfo.do?user.id="+row.id;
 	}
 	
 	function resetValue(){
@@ -123,7 +123,7 @@
 </head>
 <body style="margin: 1px;">
 	<table id="dg" title="用户管理" class="easyui-datagrid" fitColumns="true"
-		pagination="true" rownumbers="true" url="user_list.action" fit="true"
+		pagination="true" rownumbers="true" url="${pageContext.request.contextPath}/user/admin/getUserList.do" fit="true"
 		toolbar="#tb">
 		<thead>
 			<tr>

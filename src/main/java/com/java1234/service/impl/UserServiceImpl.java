@@ -1,6 +1,7 @@
 package com.java1234.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -58,11 +59,6 @@ public class UserServiceImpl implements UserService{
 		return null;
 	}
 
-	public Long getUserCount(User s_user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void delete(User user) {
 		// TODO Auto-generated method stub
 		
@@ -71,6 +67,21 @@ public class UserServiceImpl implements UserService{
 	public User getUserById(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<User> getUserList(Map map) {
+		// TODO Auto-generated method stub
+		return userDao.getUserList(map);
+	}
+
+	public Long getUserCount(User s_user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public long getUserCount() {
+		// TODO Auto-generated method stub
+		return userDao.getUserCount();
 	}
 
 	

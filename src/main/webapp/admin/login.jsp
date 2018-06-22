@@ -48,18 +48,18 @@
 			<div class="box">
 				<h1>管理员登陆</h1>
 				<form id="loginForm" method="post"
-					action="${pageContext.request.contextPath}/user_login.action"
+					action="${pageContext.request.contextPath}/user/login.do"
 					onsubmit="return checkForm()">
 					<table>
 						<tr>
 							<td class="field">用户名：</td>
 							<td><input class="text" type="text" id="userName"
-								name="user.userName" value="${user.userName }" /><span></span></td>
+								name="userName" value="${user.userName }" /><span></span></td>
 						</tr>
 						<tr>
 							<td class="field">登录密码：</td>
 							<td><input class="text" type="password" id="password"
-								name="user.password" value="${user.password }" /><span></span></td>
+								name="password" value="${user.password }" /><span></span></td>
 						</tr>
 						<tr>
 							<td class="field">验证码：</td>
@@ -72,7 +72,7 @@
 								height="20" border="1" align="absmiddle"></td>
 						</tr>
 						<tr>
-							<td><input type="hidden" name="user.status" value="2" /></td>
+							<td><input type="hidden" name="status" value="2" /></td>
 							<td><label class="ui-green"><input type="submit"
 									name="submit" value="立即登录" /></label>&nbsp;&nbsp;<font id="error"
 								color="red">${error }</font></td>

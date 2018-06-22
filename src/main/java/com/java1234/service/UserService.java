@@ -1,6 +1,7 @@
 package com.java1234.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.java1234.entity.PageBean;
 import com.java1234.entity.User;
@@ -35,4 +36,8 @@ public interface UserService {
 	public User getUserById(int id);
 
 	public boolean checkUserName(String userName);
+
+	public List<User> getUserList(Map map);
+
+	public long getUserCount();
 }

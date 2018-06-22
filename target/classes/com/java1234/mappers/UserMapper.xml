@@ -31,19 +31,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    </otherwise>
 		</choose>		
 	</insert>
-	
-	
-
 
 	<select id="checkUserName" parameterType="String" resultType="int">
 		select count(1) from t_user where userName = #{userName}
 	</select>
 
 	<select id="login" parameterType="User" resultMap="UserResult">
-		select * from t_user where userName = #{userName} and password = #{password}
-		<if test="status==2">
-			and status = 2
-		</if>
+		select * from t_user where userName = #{userName} and password = #{password} and status = #{status}
+	</select>
+	
+	<select id="getUserList" parameterType="Map" resultMap="UserResult">
+		select * from t_user where status=1 order by id desc limit #{page},#{pageSize}
+	</select>
+	
+	<select id="getUserCount"  resultType="long">
+		select count(1) from t_user where status=1 
 	</select>
 	
 
